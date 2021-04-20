@@ -65,10 +65,20 @@ useEffect( ()=>{
 
   };//Fin del segundo metodo
 
+  const eliminarDatos = async()=>{
+    try {
+       await AsyncStorage.removeItem('nombre')
+       setnombreStorage('');
+    } catch (error) {
+      console.log( error );
+    }
+  }
+
   return (
     <>
     <View style={styles.contenedor}>
-      <Text> Hola-> {nombreStorage}</Text>
+      { nombreStorage ? <Text> Hola: {nombreStorage}</Text>  : null }
+      
       <TextInput 
         placeholder="Escribe tu nombre"
         style={styles.input}
@@ -79,9 +89,17 @@ useEffect( ()=>{
         color="#333"
           onPress={() => guardarDatos() }
         />
-      <TouchableHighlight style={styles.btnEliminar}>
-          <Text style={styles.TextoEliminar}> Eliminar Nombre  </Text>
-      </TouchableHighlight>
+
+      { nombreStorage ? 
+        (      
+          <TouchableHighlight 
+              style={styles.btnEliminar}
+              onPress={ ()=>eliminarDatos() }
+              >
+              <Text style={styles.TextoEliminar}> Eliminar Nombre  </Text>
+          </TouchableHighlight>
+        )   
+      : null }
     </View>
     </>
   );
